@@ -1,0 +1,62 @@
+INSERT INTO Patients (patient_id, patient_name, age, gender) VALUES
+(1, 'Rahul', 25, 'M'),
+(2, 'Priya', 30, 'F'),
+(3, 'Amit', 40, 'M'),
+(4, 'Sneha', 22, 'F'),
+(5, 'Karan', 35, 'M'),
+(6, 'Anjali', 28, 'F'),
+(7, 'Vikram', 45, 'M'),
+(8, 'Neha', 33, 'F'),
+(9, 'Arjun', 27, 'M'),
+(10, 'Pooja', 31, 'F');
+
+INSERT INTO Doctors (doctor_id, doctor_name, specialization) VALUES
+(1, 'Dr. Rajesh Kumar', 'Cardiology'),
+(2, 'Dr. Meena Gupta', 'Dermatology'),
+(3, 'Dr. Sanjay Patel', 'Orthopedics'),
+(4, 'Dr. Kavita Shah', 'Pediatrics'),
+(5, 'Dr. Anil Nair', 'Neurology'),
+(6, 'Dr. Ritu Verma', 'Gynecology'),
+(7, 'Dr. Mohan Rao', 'General Medicine'),
+(8, 'Dr. Snehal Desai', 'ENT'),
+(9, 'Dr. Arvind Singh', 'Oncology'),
+(10, 'Dr. Priyanka Das', 'Psychiatry');
+
+INSERT INTO Appointments (appointment_id, patient_id, doctor_id, appointment_date) VALUES
+(1, 1, 7, '2026-04-01'),
+(2, 2, 6, '2026-04-02'),
+(3, 3, 1, '2026-04-03'),
+(4, 1, 7, '2026-04-10'),
+(5, 5, 3, '2026-04-05'),
+(6, 6, 2, '2026-04-06'),
+(7, 2, 6, '2026-04-12'),
+(8, 8, 8, '2026-04-08'),
+(9, 1, 7, '2026-05-01'),
+(10, 3, 1, '2026-05-02'),
+(11, 4, 4, '2026-05-03'),
+(12, 5, 3, '2026-05-05'),
+(13, 6, 2, '2026-05-06'),
+(14, 7, 5, '2026-05-07'),
+(15, 1, 7, '2026-05-15'),
+(16, 9, 9, '2026-05-09'),
+(17, 2, 6, '2026-06-01'),
+(18, 3, 1, '2026-06-02'),
+(19, 8, 8, '2026-06-03'),
+(20, 10, 10, '2026-06-04');
+
+INSERT INTO Treatments (treatment_id, patient_id, diagnosis, cost) VALUES
+(1, 1, 'Fever', 500),
+(2, 1, 'Fever', 600),
+(3, 2, 'Skin Allergy', 1200),
+(4, 2, 'Skin Allergy', 1100),
+(5, 3, 'Heart Issue', 15000),
+(6, 3, 'Heart Issue', 14000),
+(7, 4, 'Cold and Cough', 300),
+(8, 5, 'Fracture', 8000),
+(9, 6, 'Migraine', 2000),
+(10, 6, 'Migraine', 2200),
+(11, 7, 'Diabetes', 2500),
+(12, 7, 'Diabetes', 2600),
+(13, 8, 'Ear Infection', 700),
+(14, 9, 'Cancer Screening', 20000),
+(15, 10, 'Depression', 3500);
