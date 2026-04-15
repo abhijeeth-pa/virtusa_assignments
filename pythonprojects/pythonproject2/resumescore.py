@@ -2,20 +2,12 @@ import io
 import re
 from collections import Counter
 from pathlib import Path
+from typing import Iterable
 
+import docx
+import pdfplumber
 import streamlit as st
-
-try:
-    from PyPDF2 import PdfReader
-    PDF_OK = True
-except ImportError:
-    PDF_OK = False
-
-try:
-    import docx
-    DOCX_OK = True
-except ImportError:
-    DOCX_OK = False
+from PyPDF2 import PdfReader
 
 
 st.set_page_config(page_title="Resume Scorer", page_icon="◎", layout="centered")
@@ -52,27 +44,48 @@ def get_tokens(text):
     return re.findall(r"[a-zA-Z0-9][a-zA-Z0-9+#.\-/]*", text.lower())
 
 
+def _join_non_empty(parts: Iterable[str]):
+    return "\n".join(part for part in parts if part).strip()
+
+
 def extract_pdf(file_bytes):
-    if not PDF_OK:
-        return "", "PDF support is not available in this environment."
+    errors = []
 
     try:
         reader = PdfReader(io.BytesIO(file_bytes))
-        pages = []
-        for page in reader.pages:
-            pages.append(page.extract_text() or "")
-        text = "\n".join(pages).strip()
-        if not text:
-            return "", "The PDF opened, but no selectable text was found. If this is a scanned PDF, convert it to a text-based PDF first."
-        return text, ""
-    except Exception:
-        return "", "The uploaded PDF could not be read. Please try another PDF or save the file again from your editor."
+        if getattr(reader, "is_encrypted", False):
+            try:
+                reader.decrypt("")
+            except Exception:
+                pass
+
+        pages = [(page.extract_text() or "") for page in reader.pages]
+        text = _join_non_empty(pages)
+        if text:
+            return text, ""
+        errors.append("PyPDF2 extracted no selectable text")
+    except Exception as exc:
+        errors.append(f"PyPDF2 failed: {type(exc).__name__}")
+
+    try:
+        with pdfplumber.open(io.BytesIO(file_bytes)) as pdf:
+            pages = [(page.extract_text() or "") for page in pdf.pages]
+        text = _join_non_empty(pages)
+        if text:
+            return text, ""
+        errors.append("pdfplumber extracted no selectable text")
+    except Exception as exc:
+        errors.append(f"pdfplumber failed: {type(exc).__name__}")
+
+    details = "; ".join(errors)
+    return "", (
+        "Could not extract text from this PDF. "
+        "If it is image-only, run OCR first. "
+        f"Details: {details}."
+    )
 
 
 def extract_docx(file_bytes):
-    if not DOCX_OK:
-        return "", "DOCX support is not available in this environment."
-
     try:
         document = docx.Document(io.BytesIO(file_bytes))
         text = "\n".join(paragraph.text for paragraph in document.paragraphs).strip()
@@ -83,6 +96,17 @@ def extract_docx(file_bytes):
         return "", "The uploaded DOCX file could not be read."
 
 
+def extract_txt(file_bytes):
+    for encoding in ("utf-8", "utf-8-sig", "cp1252", "latin-1"):
+        try:
+            text = file_bytes.decode(encoding).strip()
+            if text:
+                return text, ""
+        except Exception:
+            continue
+    return "", "The uploaded TXT file could not be decoded. Save it as UTF-8 and try again."
+
+
 def extract_resume_text(uploaded_file):
     file_extension = Path(uploaded_file.name).suffix.lower()
     file_bytes = uploaded_file.getvalue()
@@ -91,7 +115,9 @@ def extract_resume_text(uploaded_file):
         return extract_pdf(file_bytes)
     if file_extension == ".docx":
         return extract_docx(file_bytes)
-    return "", "Please upload a PDF or DOCX file."
+    if file_extension == ".txt":
+        return extract_txt(file_bytes)
+    return "", "Please upload a PDF, DOCX, or TXT file."
 
 
 def extract_skills(text, job):
@@ -133,7 +159,7 @@ st.caption("Upload a resume, paste a job description, and review the skill and k
 
 with st.form("resume_analysis_form"):
     job_type = st.selectbox("Job role", list(JOBS.keys()))
-    uploaded = st.file_uploader("Resume file", type=["pdf", "docx"])
+    uploaded = st.file_uploader("Resume file", type=["pdf", "docx", "txt"])
     jd_text = st.text_area("Job description", height=220, placeholder="Paste the full job description here.")
     submitted = st.form_submit_button("Analyze resume")
 
