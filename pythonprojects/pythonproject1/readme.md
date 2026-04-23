@@ -29,18 +29,7 @@ It also applies surge pricing during peak hours.
 python citycabfare.py
 ```
 
-## Sample Use Case
-Enter:
-- Distance: `10`
-- Vehicle Type: `Premium`
-- Hour: `18`
+## Screenshot
 
-The program calculates the fare using the premium rate and surge multiplier.
-
-## Screenshots
-Place your screenshots inside the `screenshots` folder and embed them like this:
-
-```md
 ![City Cab Fare Output](./output.png)
-```
 
