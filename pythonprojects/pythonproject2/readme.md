@@ -45,6 +45,7 @@ streamlit run resumescore.py
 
 ## Screenshots
 
-```md
 ![Resume Scorer Results](./Screenshot%202026-04-15%20113030.png)
+
+
 
