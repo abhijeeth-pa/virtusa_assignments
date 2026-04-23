@@ -157,7 +157,7 @@ This application demonstrates several important software design concepts:
 
 **Collections and Lists** - Java's ArrayList is used to manage multiple questions efficiently.
 
-##Screenshots
+## Screenshots
 ![Online Quiz Admin Panel](./quiz-admin-panel.png)
 **Admin panel**
 
