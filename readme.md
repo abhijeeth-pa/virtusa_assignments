@@ -19,9 +19,10 @@ virtusa_projects/
 │   └── javaproject2/
 │       └── Online Quiz and Assessment System
 ├── python_projects/
-│   ├── pythonproject1/
-│   │   └── City Cab Fare Calculator
-│   └── pythonproject2/
-│       └── Resume Scoring System
-└── PROJECT_OVERVIEW.md (this file)
+    ├── pythonproject1/
+    │   └── City Cab Fare Calculator
+    └── pythonproject2/
+       └── Resume Scoring System
+
 ```
+You can acess each and every project insights like technologies used and how to compile it and versions of programming languages used in readme.md file which is written for each and every project seperately.
