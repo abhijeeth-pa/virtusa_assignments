@@ -107,5 +107,5 @@ The application demonstrates several important programming concepts:
 
 
 ## Screenshots 
-![FinSafe Menu](screenshots/finsafe-menu.png)
-![FinSafe Statement](screenshots/finsafe-statement.png)
+![FinSafe Menu](./Finsafe-menu.png)
+![FinSafe Statement](./Finsafe-statement.png)
