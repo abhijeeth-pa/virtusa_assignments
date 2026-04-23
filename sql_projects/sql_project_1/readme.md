@@ -35,13 +35,6 @@ This SQL project models a simple hospital management system and uses analytical 
 - most frequent patients
 - doctor performance analysis
 
-## Example Join Used
-```sql
-select month(appointment_date) as month, sum(t.cost) as revenue
-from Appointments a
-join Treatments t on a.patient_id = t.patient_id
-group by month(appointment_date);
-```
 
 ## How to Use
 1. Create the database and tables using `sql_complete_queries.sql`.
