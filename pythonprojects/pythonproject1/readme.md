@@ -41,6 +41,6 @@ The program calculates the fare using the premium rate and surge multiplier.
 Place your screenshots inside the `screenshots` folder and embed them like this:
 
 ```md
-![City Cab Fare Output](output.png)
+![City Cab Fare Output](./output.png)
 ```
 
